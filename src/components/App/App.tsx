@@ -8,21 +8,16 @@ function App() {
   const [movies, setMovies] = useState<Movie[]>([]);
   const [query, setQuery] = useState("");
   const [page, setPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
-  const [loading, setLoading] = useState(false);
   useEffect(() => {
     if (!query) return;
 
     const load = async () => {
       try {
-        setLoading(true);
         const data = await fetchMovies(query, page);
         setMovies(data.results);
-        setTotalPages(data.total_pages);
       } catch (e) {
         console.error(e);
       } finally {
-        setLoading(false);
       }
     };
 
