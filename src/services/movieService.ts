@@ -2,6 +2,7 @@ import axios from "axios";
 import { type Movie } from "../types/movie";
 
 interface MovieResponse {
+  length: number;
   page: number;
   results: Movie[];
   total_pages: number;
@@ -16,7 +17,7 @@ const api = axios.create({
   },
 });
 
-export const fetchMovies = async (
+export const movieService = async (
   query: string,
   page: number
 ): Promise<MovieResponse> => {
@@ -28,6 +29,5 @@ export const fetchMovies = async (
       language: "en-US",
     },
   });
-
   return data;
 };

@@ -1,13 +1,17 @@
 import css from "./SearchBar.module.css";
-
+import { notifyError } from "../../services/toast";
 interface OrderFormProps {
   onSubmit: (value: string) => void;
 }
 
 export default function SearchBar({ onSubmit }: OrderFormProps) {
   const handleSubmit = (formData: FormData) => {
-    const username = formData.get("query") as string;
-    onSubmit(username);
+    const search = formData.get("query") as string;
+    if (search.length === 0) {
+      notifyError();
+      return;
+    }
+    onSubmit(search);
   };
 
   return (
@@ -22,7 +26,7 @@ export default function SearchBar({ onSubmit }: OrderFormProps) {
               className={css.input}
               type="text"
               name="query"
-              autoComplete="off"
+              autoComplete="on"
               placeholder="Search movies..."
               autoFocus
             />
