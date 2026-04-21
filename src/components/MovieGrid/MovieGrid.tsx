@@ -5,9 +5,10 @@ import ErrorMessage from "../ErrorMessage/ErrorMessage";
 type Props = {
   movies: Movie[];
   isLoading: boolean;
+  onClick: () => void;
 };
 
-export default function MovieGrid({ movies, isLoading }: Props) {
+export default function MovieGrid({ movies, isLoading, onClick }: Props) {
   if (isLoading) {
     return <p>Loading data, please wait...</p>;
   }
@@ -20,7 +21,7 @@ export default function MovieGrid({ movies, isLoading }: Props) {
       {movies.length > 0 && (
         <ul className={css.grid}>
           {movies.map((movie) => (
-            <li key={movie.id} className={css.card}>
+            <li key={movie.id} className={css.card} onClick={onClick}>
               <img
                 className={css.image}
                 src={

@@ -1,3 +1,4 @@
+import "modern-normalize";
 import css from "./App.module.css";
 import SearchBar from "../SearchBar/SearchBar";
 import { movieService } from "../../services/movieService";
@@ -6,8 +7,11 @@ import type { Movie } from "../../types/movie";
 import MovieGrid from "../MovieGrid/MovieGrid";
 import { Toaster } from "react-hot-toast";
 import { notifyNoMovies } from "../../services/toast";
-
+import MovieModal from "../MovieModal/MovieModal";
 function App() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
   const [isLoading, setIsLoading] = useState(false);
   const [movies, setMovies] = useState<Movie[]>([]);
   const [query, setQuery] = useState("");
@@ -46,8 +50,9 @@ function App() {
           setMovies([]);
         }}
       />
-      <MovieGrid movies={movies} isLoading={isLoading} />
+      <MovieGrid movies={movies} isLoading={isLoading} onClick={openModal} />
       <Toaster position="top-center" reverseOrder={false} />
+      {isModalOpen && <MovieModal onClose={closeModal} />}
     </div>
   );
 }
