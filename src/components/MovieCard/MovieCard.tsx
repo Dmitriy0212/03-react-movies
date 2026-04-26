@@ -3,12 +3,12 @@ import css from "../MovieGrid/MovieGrid.module.css";
 
 type Props = {
   movie: Movie;
-  onClick: (movie: Movie) => void;
+  onSelect: (movie: Movie) => void;
 };
 
-export default function MoviePost({ movie, onClick }: Props) {
+export default function MoviePost({ movie, onSelect }: Props) {
   return (
-    <li className={css.card} onClick={() => onClick(movie)}>
+    <li className={css.card} onClick={() => onSelect(movie)}>
       <img
         className={css.image}
         src={

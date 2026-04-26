@@ -59,8 +59,7 @@ function App() {
 
       <MovieGrid
         movies={movies}
-        isLoading={isLoading}
-        onClick={(movie: Movie) => {
+        onSelect={(movie) => {
           setSelectedMovie(movie);
           openModal();
         }}
