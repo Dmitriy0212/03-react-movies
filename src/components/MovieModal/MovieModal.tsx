@@ -13,7 +13,6 @@ export default function MovieModal({ onClose, movie }: MovieModalProps) {
       onClose();
     }
   };
-  console.log(movie);
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
