@@ -8,11 +8,16 @@ import MovieGrid from "../MovieGrid/MovieGrid";
 import { Toaster } from "react-hot-toast";
 import { notifyNoMovies } from "../../services/toast";
 import MovieModal from "../MovieModal/MovieModal";
+import Loader from "../Loader/Loader";
+import ErrorMessage from "../ErrorMessage/ErrorMessage";
 
 function App() {
   const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
   const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
+
   const [movies, setMovies] = useState<Movie[]>([]);
   const [query, setQuery] = useState("");
   const [page, setPage] = useState(1);
@@ -26,6 +31,7 @@ function App() {
     const load = async () => {
       try {
         setIsLoading(true);
+        setIsError(false);
 
         const data = await movieService(query, page);
 
@@ -37,8 +43,9 @@ function App() {
 
         setMovies(data.results);
       } catch (e) {
-        setMovies([]);
         console.error(e);
+        setIsError(true);
+        setMovies([]);
       } finally {
         setIsLoading(false);
       }
@@ -57,13 +64,19 @@ function App() {
         }}
       />
 
-      <MovieGrid
-        movies={movies}
-        onSelect={(movie) => {
-          setSelectedMovie(movie);
-          openModal();
-        }}
-      />
+      {isLoading && <Loader />}
+
+      {isError && <ErrorMessage />}
+
+      {!isLoading && !isError && movies.length > 0 && (
+        <MovieGrid
+          movies={movies}
+          onSelect={(movie) => {
+            setSelectedMovie(movie);
+            openModal();
+          }}
+        />
+      )}
 
       <Toaster position="top-center" reverseOrder={false} />
 
