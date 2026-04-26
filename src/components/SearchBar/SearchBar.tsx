@@ -1,10 +1,10 @@
 import css from "./SearchBar.module.css";
 import { notifyError } from "../../services/toast";
-interface OrderFormProps {
+interface SearchBarProps {
   onSubmit: (value: string) => void;
 }
 
-export default function SearchBar({ onSubmit }: OrderFormProps) {
+export default function SearchBar({ onSubmit }: SearchBarProps) {
   const handleSubmit = (formData: FormData) => {
     const search = formData.get("query") as string;
     if (search.length === 0) {

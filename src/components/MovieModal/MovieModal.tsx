@@ -46,7 +46,7 @@ export default function MovieModal({ onClose, movie }: MovieModalProps) {
         </button>
         <img
           src={
-            movie.poster_path
+            movie.backdrop_path
               ? `https://image.tmdb.org/t/p/w500${movie.backdrop_path}`
               : "/no-image.png"
           }

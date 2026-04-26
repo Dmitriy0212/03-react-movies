@@ -3,13 +3,17 @@ import css from "./MovieGrid.module.css";
 import ErrorMessage from "../ErrorMessage/ErrorMessage";
 import MoviePost from "../MoviePost/MoviePost";
 
-type Props = {
+type MovieGridProps = {
   movies: Movie[];
   isLoading: boolean;
   onClick: (movie: Movie) => void;
 };
 
-export default function MovieGrid({ movies, isLoading, onClick }: Props) {
+export default function MovieGrid({
+  movies,
+  isLoading,
+  onClick,
+}: MovieGridProps) {
   if (isLoading) {
     return <p>Loading data, please wait...</p>;
   }
