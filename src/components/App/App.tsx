@@ -8,14 +8,18 @@ import MovieGrid from "../MovieGrid/MovieGrid";
 import { Toaster } from "react-hot-toast";
 import { notifyNoMovies } from "../../services/toast";
 import MovieModal from "../MovieModal/MovieModal";
+
 function App() {
+  const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
   const [isLoading, setIsLoading] = useState(false);
   const [movies, setMovies] = useState<Movie[]>([]);
   const [query, setQuery] = useState("");
   const [page, setPage] = useState(1);
+
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
+
   useEffect(() => {
     if (!query) return;
 
@@ -24,6 +28,7 @@ function App() {
         setIsLoading(true);
 
         const data = await movieService(query, page);
+
         if (data.results.length === 0) {
           if (page === 1) notifyNoMovies();
           setMovies([]);
@@ -41,6 +46,7 @@ function App() {
 
     load();
   }, [query, page]);
+
   return (
     <div className={css.app}>
       <SearchBar
@@ -50,9 +56,21 @@ function App() {
           setMovies([]);
         }}
       />
-      <MovieGrid movies={movies} isLoading={isLoading} onClick={openModal} />
+
+      <MovieGrid
+        movies={movies}
+        isLoading={isLoading}
+        onClick={(movie: Movie) => {
+          setSelectedMovie(movie);
+          openModal();
+        }}
+      />
+
       <Toaster position="top-center" reverseOrder={false} />
-      {isModalOpen && <MovieModal onClose={closeModal} />}
+
+      {isModalOpen && selectedMovie && (
+        <MovieModal onClose={closeModal} movie={selectedMovie} />
+      )}
     </div>
   );
 }
