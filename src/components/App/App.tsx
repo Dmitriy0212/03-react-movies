@@ -13,7 +13,6 @@ import ErrorMessage from "../ErrorMessage/ErrorMessage";
 
 function App() {
   const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
@@ -21,9 +20,6 @@ function App() {
   const [movies, setMovies] = useState<Movie[]>([]);
   const [query, setQuery] = useState("");
   const [page, setPage] = useState(1);
-
-  const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
 
   useEffect(() => {
     if (!query) return;
@@ -54,6 +50,10 @@ function App() {
     load();
   }, [query, page]);
 
+  const closeModal = () => {
+    setSelectedMovie(null);
+  };
+
   return (
     <div className={css.app}>
       <SearchBar
@@ -73,14 +73,13 @@ function App() {
           movies={movies}
           onSelect={(movie) => {
             setSelectedMovie(movie);
-            openModal();
           }}
         />
       )}
 
       <Toaster position="top-center" reverseOrder={false} />
 
-      {isModalOpen && selectedMovie && (
+      {selectedMovie && (
         <MovieModal onClose={closeModal} movie={selectedMovie} />
       )}
     </div>
